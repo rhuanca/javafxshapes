@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.CircleBuilder;
 import javafx.scene.shape.StrokeType;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
@@ -54,14 +55,15 @@ public class ShapeDisplay extends Group {
     
     private void drawCircle(double centerx, double centery, double offsetx, double offsety) {
         double radious = Math.sqrt(Math.pow(offsetx-centerx, 2.0) + Math.pow(centery - offsety, 2.0));
-        final Circle circle = new Circle();
-        circle.setCenterX(centerx);
-        circle.setCenterY(centery);
-        circle.setRadius(radious);
-        circle.setFill(Color.WHITE);
-        circle.setStrokeType(StrokeType.INSIDE);
-        circle.setStroke(Color.web("white", 0.16));
-        circle.setStrokeWidth(4);
+        
+        Circle circle = CircleBuilder.create()
+             .centerX(centerx)
+             .centerY(centery)
+             .radius(radious)
+             .strokeWidth(3)
+             .stroke(Color.BLACK)
+             .fill(Color.BLUE)
+             .build();
         this.getChildren().add(circle);
     }
 }
