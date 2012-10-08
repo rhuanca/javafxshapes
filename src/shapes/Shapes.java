@@ -26,12 +26,10 @@ public class Shapes extends Application {
  @Override
  public void start(Stage primaryStage) {
      primaryStage.setTitle("Trilateration...");
-     ShapeDisplay root = new ShapeDisplay();
-     Scene scene = new Scene(root, 400, 300, Color.WHITE);
-     scene.setCursor(Cursor.OPEN_HAND);
-     Rectangle rectangle = new Rectangle(1000, 1000);
-     rectangle.setFill(Color.WHITE);
-     root.getChildren().add(rectangle);
+     
+     CoordsDisplay coords = new CoordsDisplay(-100, 500, 500, -100, true);
+     Scene scene = new Scene(coords, 700, 700, Color.WHITE);
      primaryStage.setScene(scene);
      primaryStage.show();
+     coords.init();
  }}

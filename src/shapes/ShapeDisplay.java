@@ -4,7 +4,6 @@
  */
 package shapes;
 
-import java.awt.geom.Path2D;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
