@@ -4,17 +4,12 @@
  */
 package shapes;
 
-import com.sun.javafx.sg.StrokedBorder;
-import java.awt.Stroke;
+import java.awt.geom.Path2D;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.CircleBuilder;
-import javafx.scene.shape.StrokeType;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import javafx.scene.shape.*;
 
 /**
  *
@@ -24,17 +19,45 @@ public class ShapeDisplay extends Group {
     
     private double centerx, centery;
     private double offsetx, offsety;
-    
+    private Path path;
     
     public ShapeDisplay(){
         this.setOnMousePressed(new EventHandler<MouseEvent>(){
 
             @Override
             public void handle(MouseEvent t) {
-                System.out.println(">>> t.getEventType() = " + t.getEventType());
                 centerx = t.getX();
                 centery = t.getY();
-                System.out.println(">>>centerx = " + centerx + ", centery = " + centery);
+                
+                path = new Path();
+                
+                MoveTo moveTo = new MoveTo();
+                moveTo.setX(t.getX());
+                moveTo.setY(t.getY());
+
+                LineTo lineTo = new LineTo();
+                lineTo.setX(t.getX());
+                lineTo.setY(t.getY());
+                
+                path.getElements().add(moveTo);
+                path.getElements().add(lineTo);
+                path.setStrokeWidth(3);
+                path.setStroke(Color.BLACK);
+      
+                getChildren().add(path);
+            }
+        });
+        
+        this.setOnMouseDragged(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent t) {
+                LineTo lineTo = (LineTo)path.getElements().get(1);
+                lineTo.setX(t.getX());
+                lineTo.setY(t.getY());
+                
+                getChildren().remove(path);
+                getChildren().add(path);
             }
         });
         
@@ -42,14 +65,12 @@ public class ShapeDisplay extends Group {
 
             @Override
             public void handle(MouseEvent t) {
-                System.out.println(">>> t.getEventType() = " + t.getEventType());
 
                 offsetx = t.getX();
                 offsety = t.getY();
-                System.out.println(">>>offsetx = " + offsetx + ", offsety = " + offsety);
+                getChildren().remove(path);
                 drawCircle(centerx, centery, offsetx, offsety);
             }
-
         });
     }
     
@@ -62,7 +83,7 @@ public class ShapeDisplay extends Group {
              .radius(radious)
              .strokeWidth(3)
              .stroke(Color.BLACK)
-             .fill(Color.BLUE)
+             .fill(null)
              .build();
         this.getChildren().add(circle);
     }
